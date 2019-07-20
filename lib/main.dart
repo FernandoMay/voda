@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'drawer.dart';
 
 void main() => runApp(MyApp());
 
@@ -10,7 +11,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.yellow,
       ),
       home: Home(),
     );
@@ -27,11 +28,15 @@ class Home extends StatelessWidget {
       ),
       body: ListView(
         children: <Widget>[
+          SizedBox(height: 10.0,),
           Arbol(),
+          SizedBox(height: 10.0,),
           Center( child: Text('Hello World!')),
-
+          SizedBox(height: 10.0,),
+          
         ],
       ),
+      drawer: MyDrawer(),
     );
   }
 }
