@@ -1,9 +1,5 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility that Flutter provides. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
+// Widget test de voda — reemplaza el boilerplate del counter (que fallaba:
+// la app no tiene counter ni botón '+').
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -11,20 +7,32 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:vodafone/main.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(MyApp());
+  testWidgets('muestra el home con titulo Vodafone', (WidgetTester tester) async {
+    await tester.pumpWidget(const MyApp());
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    expect(find.text('Vodafone'), findsOneWidget);
+  });
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+  testWidgets('el drawer se abre con sus items', (WidgetTester tester) async {
+    await tester.pumpWidget(const MyApp());
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    // El drawer no está en pantalla hasta abrirlo
+    expect(find.text('Drawer Header'), findsNothing);
+
+    // Scaffold + AppBar → el botón de menú abre el drawer
+    await tester.tap(find.byIcon(Icons.menu));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Drawer Header'), findsOneWidget);
+    expect(find.text('Item 1'), findsOneWidget);
+    expect(find.text('Item 2'), findsOneWidget);
+  });
+
+  testWidgets('el arbol muestra tres iconos de video', (WidgetTester tester) async {
+    await tester.pumpWidget(const MyApp());
+
+    expect(find.byType(Arbol), findsOneWidget);
+    expect(find.byIcon(Icons.ondemand_video), findsNWidgets(3));
+    expect(find.text('One'), findsNWidgets(3));
   });
 }
